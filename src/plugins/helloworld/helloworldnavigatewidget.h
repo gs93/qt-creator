@@ -1,6 +1,5 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Copyright (c) 2014 Falko Arps
 ** Copyright (c) 2014 Sven Klein
 ** Copyright (c) 2014 Giuliano Schneider
@@ -30,51 +29,49 @@
 **
 ****************************************************************************/
 
-#ifndef HELLOWORLDPLUGIN_H
-#define HELLOWORLDPLUGIN_H
+#ifndef HELLOWORLDNAVIGATE_H
+#define HELLOWORLDNAVIGATE_H
 
-#include "helloworldsettings.h"
+#include <cpptools/cppmodelmanagerinterface.h>
 
-#include <extensionsystem/iplugin.h>
+#include <QTableView>
+
+QT_BEGIN_NAMESPACE
+class QStandardItemModel;
+class QToolButton;
+QT_END_NAMESPACE
 
 namespace HelloWorld {
 namespace Internal {
 
-class HelloWorldOutputPane;
-class HelloWorldOptionsPage;
-
-class HelloWorldPlugin
-  : public ExtensionSystem::IPlugin
+/*!
+ * custom widget for the navigation plugin
+ *
+ * simply an enhanced version of QTableView
+ */
+class HelloWorldNavigate : public QTableView
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QtCreatorPlugin" FILE "HelloWorld.json")
-
 public:
-    HelloWorldPlugin();
-    ~HelloWorldPlugin();
+    explicit HelloWorldNavigate(QWidget *parent = 0);
 
-    bool initialize(const QStringList &arguments, QString *errorMessage);
+    QList<QToolButton *> buttons();
 
-    void extensionsInitialized();
+    bool displayMacros();
+
+    void restore(bool displayMacros);
 
 private slots:
-    void sayHelloWorld();
-    void updateSettings();
-    void onSaveSettingsRequested();
+    void onDocumentUpdated(CPlusPlus::Document::Ptr document);
+    void toggle(bool checked);
 
 private:
-    void initializeNavigationFactory();
-    void initializeOutputPane();
-    void initializeOptionsPage();
-    void initializeMode();
-    void initializeToolsMenu();
-
-    HelloWorldOutputPane *m_outputPane;
-    HelloWorldSettings m_settings;
-    HelloWorldOptionsPage *m_optionsPage;
+    QToolButton *m_toggle;
+    QStandardItemModel *m_model;
+    bool m_displayMacros;
 };
 
 } // namespace Internal
 } // namespace HelloWorld
 
-#endif // HELLOWORLDPLUGIN_H
+#endif // HELLOWORLDNAVIGATE_H

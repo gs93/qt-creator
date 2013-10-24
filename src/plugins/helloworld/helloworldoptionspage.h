@@ -1,6 +1,5 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Copyright (c) 2014 Falko Arps
 ** Copyright (c) 2014 Sven Klein
 ** Copyright (c) 2014 Giuliano Schneider
@@ -30,51 +29,42 @@
 **
 ****************************************************************************/
 
-#ifndef HELLOWORLDPLUGIN_H
-#define HELLOWORLDPLUGIN_H
+#ifndef HELLOWORLDOPTIONSPAGE_H
+#define HELLOWORLDOPTIONSPAGE_H
 
 #include "helloworldsettings.h"
 
-#include <extensionsystem/iplugin.h>
+#include <coreplugin/dialogs/ioptionspage.h>
+
+#include <QLineEdit>
+#include <QPointer>
 
 namespace HelloWorld {
 namespace Internal {
 
-class HelloWorldOutputPane;
-class HelloWorldOptionsPage;
+class OptionsDialog;
 
-class HelloWorldPlugin
-  : public ExtensionSystem::IPlugin
+class HelloWorldOptionsPage : public Core::IOptionsPage
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QtCreatorPlugin" FILE "HelloWorld.json")
-
 public:
-    HelloWorldPlugin();
-    ~HelloWorldPlugin();
+    explicit HelloWorldOptionsPage(HelloWorldSettings &settings, QObject *parent = 0);
 
-    bool initialize(const QStringList &arguments, QString *errorMessage);
+    QWidget *widget();
+    void apply();
+    void finish();
 
-    void extensionsInitialized();
-
-private slots:
-    void sayHelloWorld();
-    void updateSettings();
-    void onSaveSettingsRequested();
+signals:
+    void settingsChanged(const HelloWorldSettings &settings);
 
 private:
-    void initializeNavigationFactory();
-    void initializeOutputPane();
-    void initializeOptionsPage();
-    void initializeMode();
-    void initializeToolsMenu();
-
-    HelloWorldOutputPane *m_outputPane;
-    HelloWorldSettings m_settings;
-    HelloWorldOptionsPage *m_optionsPage;
+    QLineEdit *m_color;
+    QLineEdit *m_backgroundColor;
+    HelloWorldSettings &m_settings;
+    QPointer<QWidget> m_widget;
 };
 
 } // namespace Internal
 } // namespace HelloWorld
 
-#endif // HELLOWORLDPLUGIN_H
+#endif // HELLOWORLDOPTIONSPAGE_H

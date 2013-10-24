@@ -1,6 +1,9 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
+** Copyright (c) 2014 Falko Arps
+** Copyright (c) 2014 Sven Klein
+** Copyright (c) 2014 Giuliano Schneider
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of Qt Creator.
@@ -27,17 +30,18 @@
 **
 ****************************************************************************/
 
+#include "helloworldoptionspage.h"
+#include "helloworldoutputpane.h"
 #include "helloworldplugin.h"
+#include "helloworldnavigationwidgetfactory.h"
 
 #include <coreplugin/actionmanager/actionmanager.h>
 #include <coreplugin/actionmanager/actioncontainer.h>
 #include <coreplugin/coreconstants.h>
 #include <coreplugin/icore.h>
-#include <coreplugin/imode.h>
 #include <coreplugin/modemanager.h>
 #include <coreplugin/id.h>
 
-#include <QDebug>
 #include <QtPlugin>
 #include <QAction>
 #include <QMenu>
@@ -47,23 +51,6 @@
 namespace HelloWorld {
 namespace Internal {
 
-/*!  A mode with a push button based on BaseMode.  */
-
-class HelloMode : public Core::IMode
-{
-public:
-    HelloMode()
-    {
-        setWidget(new QPushButton(tr("Hello World PushButton!")));
-        setContext(Core::Context("HelloWorld.MainView"));
-        setDisplayName(tr("Hello world!"));
-        setIcon(QIcon());
-        setPriority(0);
-        setId("HelloWorld.HelloWorldMode");
-        setContextHelpId(QString());
-    }
-};
-
 
 /*! Constructs the Hello World plugin. Normally plugins don't do anything in
     their constructor except for initializing their member variables. The
@@ -71,7 +58,9 @@ public:
     functions.
 */
 HelloWorldPlugin::HelloWorldPlugin()
+    : m_outputPane(0), m_optionsPage(0)
 {
+
 }
 
 /*! Plugins are responsible for deleting objects they created on the heap, and
@@ -92,13 +81,48 @@ bool HelloWorldPlugin::initialize(const QStringList &arguments, QString *errorMe
     Q_UNUSED(arguments)
     Q_UNUSED(errorMessage)
 
+    initializeOutputPane();
+    initializeOptionsPage();
+    initializeToolsMenu();
+    initializeNavigationFactory();
+
+    return true;
+}
+
+void HelloWorldPlugin::initializeOptionsPage()
+{
+    m_settings.load();
+    updateSettings();
+
+    m_optionsPage = new HelloWorldOptionsPage(m_settings);
+    connect(Core::ICore::instance(), SIGNAL(saveSettingsRequested()),
+            this, SLOT(onSaveSettingsRequested()));
+    connect(m_optionsPage, SIGNAL(settingsChanged(HelloWorldSettings)),
+            this, SLOT(updateSettings()));
+
+    addAutoReleasedObject(m_optionsPage);
+}
+
+void HelloWorldPlugin::initializeOutputPane()
+{
+    m_outputPane = new HelloWorldOutputPane;
+    addAutoReleasedObject(m_outputPane);
+}
+
+void HelloWorldPlugin::initializeNavigationFactory()
+{
+    addAutoReleasedObject(new HelloWorldNavigationWidgetFactory);
+}
+
+void HelloWorldPlugin::initializeToolsMenu()
+{
     // Create a unique context for our own view, that will be used for the
     // menu entry later.
     Core::Context context("HelloWorld.MainView");
 
     // Create an action to be triggered by a menu entry
     QAction *helloWorldAction = new QAction(tr("Say \"&Hello World!\""), this);
-    connect(helloWorldAction, SIGNAL(triggered()), SLOT(sayHelloWorld()));
+    connect(helloWorldAction, SIGNAL(triggered()), this, SLOT(sayHelloWorld()));
 
     // Register the action with the action manager
     Core::Command *command =
@@ -119,13 +143,6 @@ bool HelloWorldPlugin::initialize(const QStringList &arguments, QString *errorMe
     Core::ActionContainer *toolsMenu =
             Core::ActionManager::actionContainer(Core::Constants::M_TOOLS);
     toolsMenu->addMenu(helloWorldMenu);
-
-    // Add a mode with a push button based on BaseMode. Like the BaseView,
-    // it will unregister itself from the plugin manager when it is deleted.
-    Core::IMode *helloMode = new HelloMode;
-    addAutoReleasedObject(helloMode);
-
-    return true;
 }
 
 /*! Notification that all extensions that this plugin depends on have been
@@ -151,7 +168,22 @@ void HelloWorldPlugin::sayHelloWorld()
             0, tr("Hello World!"), tr("Hello World! Beautiful day today, isn't it?"));
 }
 
+void HelloWorldPlugin::updateSettings()
+{
+    QString s = QString::fromLatin1("QTextEdit { color: %1; background-color: %2;}")
+            .arg(m_settings.m_textEditColor.name())
+            .arg(m_settings.m_textEditBackgroundColor.name());
+
+    m_outputPane->setStylesheet(s);
+}
+
+void HelloWorldPlugin::onSaveSettingsRequested()
+{
+    m_settings.save();
+}
+
 } // namespace Internal
+
 } // namespace HelloWorld
 
 Q_EXPORT_PLUGIN(HelloWorld::Internal::HelloWorldPlugin)

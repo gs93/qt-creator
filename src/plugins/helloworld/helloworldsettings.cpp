@@ -1,6 +1,5 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Copyright (c) 2014 Falko Arps
 ** Copyright (c) 2014 Sven Klein
 ** Copyright (c) 2014 Giuliano Schneider
@@ -30,51 +29,49 @@
 **
 ****************************************************************************/
 
-#ifndef HELLOWORLDPLUGIN_H
-#define HELLOWORLDPLUGIN_H
-
+#include "helloworld_constants.h"
 #include "helloworldsettings.h"
 
-#include <extensionsystem/iplugin.h>
+#include <coreplugin/icore.h>
+
+#include <QSettings>
 
 namespace HelloWorld {
 namespace Internal {
 
-class HelloWorldOutputPane;
-class HelloWorldOptionsPage;
-
-class HelloWorldPlugin
-  : public ExtensionSystem::IPlugin
+void HelloWorldSettings::save() const
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QtCreatorPlugin" FILE "HelloWorld.json")
+    QSettings *settings = Core::ICore::settings();
 
-public:
-    HelloWorldPlugin();
-    ~HelloWorldPlugin();
+    settings->beginGroup(QLatin1String(Constants::SETTINGS_GROUP));
+    settings->setValue(QLatin1String(Constants::OUTPUTPANE_COLOR), m_textEditColor);
+    settings->setValue(QLatin1String(Constants::OUTPUTPANE_BACKGOUND_COLOR),
+                       m_textEditBackgroundColor);
+    settings->endGroup();
+}
 
-    bool initialize(const QStringList &arguments, QString *errorMessage);
+void HelloWorldSettings::load()
+{
+    QSettings *settings = Core::ICore::settings();
 
-    void extensionsInitialized();
+    settings->beginGroup(QLatin1String(Constants::SETTINGS_GROUP));
+    m_textEditColor = settings->value(QLatin1String(Constants::OUTPUTPANE_COLOR),
+                                    QColor(Constants::DEFAULT_OUTPUTPANE_COLOR)).value<QColor>();
+    m_textEditBackgroundColor = settings->value(QLatin1String(Constants::OUTPUTPANE_BACKGOUND_COLOR),
+                            QColor(Constants::DEFAULT_OUTPUTPANE_BACKGROUND_COLOR)).value<QColor>();
+    settings->endGroup();
+}
 
-private slots:
-    void sayHelloWorld();
-    void updateSettings();
-    void onSaveSettingsRequested();
+bool operator==(const HelloWorldSettings &lhs, const HelloWorldSettings &rhs)
+{
+    return lhs.m_textEditColor == rhs.m_textEditColor &&
+        lhs.m_textEditBackgroundColor == rhs.m_textEditBackgroundColor;
+}
 
-private:
-    void initializeNavigationFactory();
-    void initializeOutputPane();
-    void initializeOptionsPage();
-    void initializeMode();
-    void initializeToolsMenu();
+bool operator!=(const HelloWorldSettings &lhs, const HelloWorldSettings &rhs)
+{
+    return !(lhs == rhs);
+}
 
-    HelloWorldOutputPane *m_outputPane;
-    HelloWorldSettings m_settings;
-    HelloWorldOptionsPage *m_optionsPage;
-};
-
-} // namespace Internal
 } // namespace HelloWorld
-
-#endif // HELLOWORLDPLUGIN_H
+} // namespace Internal

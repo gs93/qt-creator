@@ -13,6 +13,16 @@ QtcPlugin {
         "helloworldplugin.h",
         "helloworldwindow.cpp",
         "helloworldwindow.h",
+        "helloworldoptionspage.cpp",
+        "helloworldoptionspage.h",
+        "helloworldsettings.cpp",
+        "helloworldsettings.h",
+        "helloworld_constants.h",
+        "helloworldoutputpane.cpp",
+        "helloworldoutputpane.h",
+        "helloworldnavigatewidget.cpp",
+        "helloworldnavigatewidget.h",
+        "helloworldnavigationwidgetfactory.cpp",
+        "helloworldnavigationwidgetfactory.h",
     ]
 }
-

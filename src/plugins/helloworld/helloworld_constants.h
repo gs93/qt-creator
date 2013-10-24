@@ -1,6 +1,5 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Copyright (c) 2014 Falko Arps
 ** Copyright (c) 2014 Sven Klein
 ** Copyright (c) 2014 Giuliano Schneider
@@ -30,51 +29,27 @@
 **
 ****************************************************************************/
 
-#ifndef HELLOWORLDPLUGIN_H
-#define HELLOWORLDPLUGIN_H
-
-#include "helloworldsettings.h"
-
-#include <extensionsystem/iplugin.h>
+#ifndef HELLOWORLD_CONSTANTS_H
+#define HELLOWORLD_CONSTANTS_H
 
 namespace HelloWorld {
-namespace Internal {
+namespace Constants {
 
-class HelloWorldOutputPane;
-class HelloWorldOptionsPage;
+// Default values
+const char DEFAULT_OUTPUTPANE_COLOR[] = "#000000";
+const char DEFAULT_OUTPUTPANE_BACKGROUND_COLOR[] = "#FFFFFF";
 
-class HelloWorldPlugin
-  : public ExtensionSystem::IPlugin
-{
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QtCreatorPlugin" FILE "HelloWorld.json")
+// Settings
+const char SETTINGS_CATEGORY[] = "H.HelloWorld";
+const char SETTINGS_ID[] = "HelloWorldSettings";
+const char SETTINGS_ICON[] = ":/images/hierarchicalmode.png";
+const char SETTINGS_GROUP[] = "HelloWorldPlugin";
 
-public:
-    HelloWorldPlugin();
-    ~HelloWorldPlugin();
+const char OUTPUTPANE_COLOR[] = "outputPaneColor";
+const char OUTPUTPANE_BACKGOUND_COLOR[] = "outputPaneBackgroundColor";
 
-    bool initialize(const QStringList &arguments, QString *errorMessage);
-
-    void extensionsInitialized();
-
-private slots:
-    void sayHelloWorld();
-    void updateSettings();
-    void onSaveSettingsRequested();
-
-private:
-    void initializeNavigationFactory();
-    void initializeOutputPane();
-    void initializeOptionsPage();
-    void initializeMode();
-    void initializeToolsMenu();
-
-    HelloWorldOutputPane *m_outputPane;
-    HelloWorldSettings m_settings;
-    HelloWorldOptionsPage *m_optionsPage;
-};
-
-} // namespace Internal
+} // namespace Constants
 } // namespace HelloWorld
 
-#endif // HELLOWORLDPLUGIN_H
+#endif // HELLOWORLD_CONSTANTS_H
+

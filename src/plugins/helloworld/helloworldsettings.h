@@ -1,6 +1,5 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Copyright (c) 2014 Falko Arps
 ** Copyright (c) 2014 Sven Klein
 ** Copyright (c) 2014 Giuliano Schneider
@@ -30,51 +29,28 @@
 **
 ****************************************************************************/
 
-#ifndef HELLOWORLDPLUGIN_H
-#define HELLOWORLDPLUGIN_H
+#ifndef HELLOWORLDSETTINGS_H
+#define HELLOWORLDSETTINGS_H
 
-#include "helloworldsettings.h"
-
-#include <extensionsystem/iplugin.h>
+#include <QColor>
 
 namespace HelloWorld {
 namespace Internal {
 
-class HelloWorldOutputPane;
-class HelloWorldOptionsPage;
-
-class HelloWorldPlugin
-  : public ExtensionSystem::IPlugin
+class HelloWorldSettings
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QtCreatorPlugin" FILE "HelloWorld.json")
-
 public:
-    HelloWorldPlugin();
-    ~HelloWorldPlugin();
+    QColor m_textEditColor;
+    QColor m_textEditBackgroundColor;
 
-    bool initialize(const QStringList &arguments, QString *errorMessage);
-
-    void extensionsInitialized();
-
-private slots:
-    void sayHelloWorld();
-    void updateSettings();
-    void onSaveSettingsRequested();
-
-private:
-    void initializeNavigationFactory();
-    void initializeOutputPane();
-    void initializeOptionsPage();
-    void initializeMode();
-    void initializeToolsMenu();
-
-    HelloWorldOutputPane *m_outputPane;
-    HelloWorldSettings m_settings;
-    HelloWorldOptionsPage *m_optionsPage;
+    void save() const;
+    void load();
 };
+
+bool operator==(const HelloWorldSettings &rhs, const HelloWorldSettings &lhs);
+bool operator!=(const HelloWorldSettings &rhs, const HelloWorldSettings &lhs);
 
 } // namespace Internal
 } // namespace HelloWorld
 
-#endif // HELLOWORLDPLUGIN_H
+#endif // HELLOWORLDSETTINGS_H

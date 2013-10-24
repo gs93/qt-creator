@@ -1,6 +1,5 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Copyright (c) 2014 Falko Arps
 ** Copyright (c) 2014 Sven Klein
 ** Copyright (c) 2014 Giuliano Schneider
@@ -30,51 +29,58 @@
 **
 ****************************************************************************/
 
-#ifndef HELLOWORLDPLUGIN_H
-#define HELLOWORLDPLUGIN_H
+#ifndef HELLOWORLDOUTPUTPANE_HPP
+#define HELLOWORLDOUTPUTPANE_HPP
 
-#include "helloworldsettings.h"
+#include <coreplugin/ioutputpane.h>
 
-#include <extensionsystem/iplugin.h>
+QT_BEGIN_NAMESPACE
+class QTextEdit;
+class QToolButton;
+QT_END_NAMESPACE
 
 namespace HelloWorld {
 namespace Internal {
 
-class HelloWorldOutputPane;
-class HelloWorldOptionsPage;
-
-class HelloWorldPlugin
-  : public ExtensionSystem::IPlugin
+class HelloWorldOutputPane : public Core::IOutputPane
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QtCreatorPlugin" FILE "HelloWorld.json")
-
 public:
-    HelloWorldPlugin();
-    ~HelloWorldPlugin();
+    explicit HelloWorldOutputPane(QObject *parent = 0);
+    ~HelloWorldOutputPane();
 
-    bool initialize(const QStringList &arguments, QString *errorMessage);
+    QWidget *outputWidget(QWidget *parent);
+    QList<QWidget *> toolBarWidgets() const;
+    QString displayName() const;
 
-    void extensionsInitialized();
+    int priorityInStatusBar() const;
+
+    void clearContents();
+    void visibilityChanged(bool visible);
+
+    void setFocus();
+    bool hasFocus() const;
+    bool canFocus() const;
+
+    bool canNavigate() const;
+    bool canNext() const;
+    bool canPrevious() const;
+    void goToNext();
+    void goToPrev();
+
+    void setStylesheet(const QString &stylesheet);
 
 private slots:
-    void sayHelloWorld();
-    void updateSettings();
-    void onSaveSettingsRequested();
+    void sayHello();
+    void printRecentFiles();
 
 private:
-    void initializeNavigationFactory();
-    void initializeOutputPane();
-    void initializeOptionsPage();
-    void initializeMode();
-    void initializeToolsMenu();
-
-    HelloWorldOutputPane *m_outputPane;
-    HelloWorldSettings m_settings;
-    HelloWorldOptionsPage *m_optionsPage;
+    QToolButton *m_helloButton;
+    QToolButton *m_recentFilesButton;
+    QTextEdit *m_textEdit;
 };
 
 } // namespace Internal
 } // namespace HelloWorld
 
-#endif // HELLOWORLDPLUGIN_H
+#endif // HELLOWORLDOUTPUTPANE_HPP
