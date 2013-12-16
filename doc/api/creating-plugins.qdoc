@@ -1,6 +1,9 @@
 /**************************************************************************
 **
-** Copyright (c) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (c) 2014 Falko Arps
+** Copyright (c) 2014 Sven Klein
+** Copyright (c) 2014 Giuliano Schneider
+** Copyright (c) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of Qt Creator
@@ -27,11 +30,14 @@
     to provide other plugins access to their functionality and to allow them
     to extend certain aspects of the application.
 
-    For example the "Core" plugin, which is the very basic plugin that must be
+    \QC running only the Core plugin:
+    \image basic-core.png
+
+    The Core plugin, which is the very basic plugin that must be
     present for \QC to run at all, provides the main window itself, and API
     for adding menu items, modes, editor types, navigation panels and many other
     things.
-    The "TextEditor" plugin provides a framework and base implementation for
+    Similarly, the TextEditor plugin provides a framework and base implementation for
     different text editors with highlighting, completion and folding, that
     is then used by other plugins to add more specialized text editor types
     to \QC, like for editing C/C++ or .pro files.
@@ -48,18 +54,22 @@
     \li \l{Creating Your First Plugin}
     \li \l{Plugin Specifications}
     \li \l{Plugin Life Cycle}
+    \li \l{GUI for Your Plugin}
+    \li \l{Interaction between Plugins}
+    \li \l{Plugin: HelloWorld}{HelloWorld Example}
     \endlist
 
     \section1 Design Principles
     \list
     \li \l{The Plugin Manager, the Object Pool, and Registered Objects}
-    \li \l{Aggregations}
-    \li \l{Extending and Providing Interfaces}
+    \li \l{Aggregation::Aggregate}{Aggregation}
     \endlist
 
     \section1 Creating 3rd-Party Plugins
     \list
-    \li \l{A Note on Binary Compatibility}
+    \li \l{Binary and Source Compatibility}{A Note on Binary Compatibility}
+    \omit
     \li \l{Creating User-Installable Plugins}
+    \endomit
     \endlist
 */

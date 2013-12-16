@@ -1,6 +1,9 @@
 /**************************************************************************
 **
-** Copyright (c) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (c) 2014 Falko Arps
+** Copyright (c) 2014 Sven Klein
+** Copyright (c) 2014 Giuliano Schneider
+** Copyright (c) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of Qt Creator
@@ -23,6 +26,8 @@
     To be able to write \QC plugins, you must understand the steps that the plugin
     manager takes when you start or shut down \QC. This section describes
     the process and the state that plugins go through in detail.
+
+    \section1 Startup
 
     When you start \QC, the plugin manager does the following:
 
@@ -96,6 +101,8 @@
     Before the \QC UI is shown it sends \l{Core::ICore::coreAboutToOpen()}{coreAboutToOpen()},
     and afterwards \l{Core::ICore::coreOpened()}{coreOpened()}.
 
+    \section1 In Operation
+
     After startup, when the event loop of \QC is running, the plugin manager calls
     the \l{ExtensionSystem::IPlugin::delayedInitialize()}{delayedInitialize()} functions of all
     plugins in \e reverse order of the load queue. The calls are done on the main thread, but
@@ -105,6 +112,8 @@
 
     After all delayed initializations are done the \l{ExtensionSystem::PluginManager}{PluginManager}
     sends the \l{ExtensionSystem::PluginManager::initializationDone()}{initializationDone()} signal.
+
+    \section1 Shutdown
 
     Before shutdown, the \c Core plugin \l{Core::ICore} sends the
     \l{Core::ICore::coreAboutToClose()}{coreAboutToClose()} signal. After that, the

@@ -1,0 +1,61 @@
+/**************************************************************************
+**
+** Copyright (c) 2014 Falko Arps
+** Copyright (c) 2014 Sven Klein
+** Copyright (c) 2014 Giuliano Schneider
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of Qt Creator
+**
+**
+** GNU Free Documentation License
+**
+** Alternatively, this file may be used under the terms of the GNU Free
+** Documentation License version 1.3 as published by the Free Software
+** Foundation and appearing in the file included in the packaging of this
+** file.
+**
+**
+**************************************************************************/
+
+/*!
+    \page plugins-interaction.html
+    \title Interaction between Plugins
+
+    \section1 Overview
+
+    The \QC plugins can interact with each other. This page describes the interaction between
+    your plugin and core, your plugin and other plugins, and how to make it possible for other
+    plugins to interact with your plugin.
+
+    \section1 Interaction with other Plugins
+
+    To enable interaction the target plugin needs to export the appropriate symbols. For more
+    information, see \l{Extending and Providing Interfaces}. Then you just need to include the
+    respective header file and list the desired plugin as a dependency of your plugin. Interaction
+    with the core plugin works in exactly the same way.
+
+    The HelloWorldPlugin's source code provides an example of this by interacting with the cpptools
+    plugin and with the core plugin.
+
+    \section1 Extending and Providing Interfaces
+
+    If you want to make functions of your own plugin available for others to use, you need to add the
+    following macro declaration.
+
+    \code
+
+        #if defined(YOURPLUGIN_LIBRARY)
+        #   define YOURPLUGIN_EXPORT Q_DECL_EXPORT
+        #else
+        #   define YOURPLUGIN_EXPORT Q_DECL_IMPORT
+        #endif
+
+    \endcode
+
+    \c{YOURPLUGIN_LIBRARY} needs to be defined in the project file of your plugin for the export to
+    work.
+
+    Now simply add this macro to your class definition in the header file
+    (\c{class YOURPLUGIN_EXPORT classname}).
+*/

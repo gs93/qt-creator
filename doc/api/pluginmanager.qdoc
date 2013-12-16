@@ -1,6 +1,9 @@
 /**************************************************************************
 **
-** Copyright (c) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (c) 2014 Falko Arps
+** Copyright (c) 2014 Sven Klein
+** Copyright (c) 2014 Giuliano Schneider
+** Copyright (c) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of Qt Creator
@@ -60,11 +63,11 @@
         \row
             \li getObjects<T>()
             \li Returns all objects of type T that are registered in the object pool.
-                This respects \l{Aggregations}.
+                This respects \l{Aggregation::Aggregate}{Aggregations}.
         \row
             \li getObject<T>()
             \li Returns one object of type T that is registered in the object pool.
-                This respects \l{Aggregations}.
+                This respects \l{Aggregation::Aggregate}{Aggregations}.
         \row
             \li getObjectByName(const QString &name)
             \li Returns one object with the given object name that is registered in the object pool.

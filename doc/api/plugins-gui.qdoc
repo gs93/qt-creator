@@ -1,0 +1,90 @@
+/**************************************************************************
+**
+** Copyright (c) 2014 Falko Arps
+** Copyright (c) 2014 Sven Klein
+** Copyright (c) 2014 Giuliano Schneider
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of Qt Creator
+**
+**
+** GNU Free Documentation License
+**
+** Alternatively, this file may be used under the terms of the GNU Free
+** Documentation License version 1.3 as published by the Free Software
+** Foundation and appearing in the file included in the packaging of this
+** file.
+**
+**
+**************************************************************************/
+
+/*!
+    \page plugins-gui.html
+    \title GUI for Your Plugin
+
+    Previously you have seen how to create a rudimentary plugin. Now you will
+    learn about creating different graphic interface options for your plugins. These consist of
+    \l{Output Pane}{output panes}, \l{Options Page}{options pages}, and
+    \l{Navigation Widgets / Sidebar Views}{navigation widgets / sidebar views}.
+
+    \section1 Overview
+
+    \image gui-overview.png
+
+    This image shows the positions of the \l{Output Pane}{output panes (1)} and
+    \l{Navigation Widgets / Sidebar Views}{navigation widgets / sidebar views (2)}.
+
+    \l{Options Page}{Options pages} are displayed in an extra window accessible
+    through \gui Tools > \gui Settings.
+    Please review the HelloWorldPlugin's source code (part of \QC) as an example implementation.
+
+
+    \section1 Output Pane
+
+    As seen in the overview, the output pane is found at the bottom of \QC
+    window and displays compiler output, for example. To create a
+    custom output pane you need to inherit from the interface
+    \l{Core::IOutputPane}. By implementing the various functions declared in the
+    interface, you can define the appearance and behavior of your output pane.
+    An instance of your implementation then needs to be placed in the
+    object pool.
+
+    \image gui-outputpane.png
+
+    \list
+        \li Name of output pane (1) (\l{Core::IOutputPane::displayName()}).
+        \li Clear button (2) (\l{Core::IOutputPane::clearContents()}).
+        \li Navigation buttons (3) (\l{Core::IOutputPane::goToNext()} and
+        \l{Core::IOutputPane::goToPrev()}).
+        \li Custom buttons (4) (\l{Core::IOutputPane::toolBarWidgets()}).
+    \endlist
+
+    \section1 Navigation Widgets / Sidebar Views
+
+    Navigation widgets are found on the left side of the \QC window and
+    displays open projects, for example. These widgets are special as
+    they are produced by a factory (there can be more than one instance of a widget).
+    You will need to create your custom factory by inheriting from
+    \l{Core::INavigationWidgetFactory}. This factory must then be placed in the object pool.
+
+    \image gui-navigationwidget.png
+
+    \list
+        \li Name of the navigation widget (1)
+            (\l{Core::INavigationWidgetFactory::displayName()}).
+        \li Custom button(s) (2) (\l{Core::INavigationWidgetFactory::createWidget()}).
+    \endlist
+
+    \section1 Options Page
+
+    Options pages deal with anything related to the settings of your plugin. You can create your
+    custom options page by inheriting from \l{Core::IOptionsPage}
+
+    \image gui-optionspage.png
+
+    \list
+        \li Name of options page (1) (\l{Core::IOptionsPage::displayName()}).
+        \li Categorization (2) (\l{Core::IOptionsPage::displayCategory()}).
+        \li Options page widget (3) (\l{Core::IOptionsPage::widget()}).
+    \endlist
+*/

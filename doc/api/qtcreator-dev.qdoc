@@ -195,7 +195,7 @@
     \li \l{Creating Plugins}
     \li \l{Qt Creator Coding Rules}
     \li \l{Menus and Menu Items}
-    \li \l{Options Pages}
+    \li \l{Options Page}{Options Pages}
     \endlist
 
     \section3 Interacting with Tool Output
@@ -219,7 +219,7 @@
     \li \l{Creating Plugins}
     \li \l{Qt Creator Coding Rules}
     \li \l{Menus and Menu Items}
-    \li \l{Options Pages}
+    \li \l{Options Page}{Options Pages}
     \li \l{Editors}
     \endlist
 
@@ -233,7 +233,7 @@
                 \li  \l{Creating Wizards in Code}
                 \li  \l{Editors}
                 \li  \l{Text Editors}
-                \li  \l{Options Pages}
+                \li  \l{Options Page}{Options Pages}
             \endlist
         \li Reference
             \list

@@ -42,7 +42,9 @@ sources.fileextensions  = "*.cpp *.qdoc"
 
 imagedirs = $SRCDIR/api/images $SRCDIR/images $SRCDIR/templates/images
 outputdir = $OUTDIR
-exampledirs = $SRCDIR/api/examples
+exampledirs =  $SRCDIR/api/examples \
+               $SRCDIR/../src/plugins \
+               ../../src/plugins
 indexes                 = qt.index
 
 include(macros.qdocconf)

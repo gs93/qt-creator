@@ -1,0 +1,29 @@
+/**************************************************************************
+**
+** Copyright (c) 2014 Falko Arps
+** Copyright (c) 2014 Sven Klein
+** Copyright (c) 2014 Giuliano Schneider
+** Contact: http://www.qt-project.org/legal
+**
+** This file is part of Qt Creator
+**
+**
+** GNU Free Documentation License
+**
+** Alternatively, this file may be used under the terms of the GNU Free
+** Documentation License version 1.3 as published by the Free Software
+** Foundation and appearing in the file included in the packaging of this
+** file.
+**
+**
+**************************************************************************/
+
+/*!
+    \example helloworld
+    \title Plugin: HelloWorld
+    \subtitle
+
+    The HelloWorld Plugin offers example implementations of a sidebarwigdet, an output pane, and an
+    options page.
+
+*/

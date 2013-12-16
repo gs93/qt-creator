@@ -281,7 +281,7 @@
     The base class defines basic functions that are called during the life cycle
     of a plugin, which are here implemented for your new plugin.
     These functions and their roles are described in detail in
-    \l{The Plugin Life Cycle}.
+    \l{Plugin Life Cycle}.
 
     \snippet exampleplugin/exampleplugin.h slot
 
